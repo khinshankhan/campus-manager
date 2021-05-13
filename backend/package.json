@@ -1,24 +1,22 @@
 {
-  "name": "backend",
+  "name": "starter-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "backend app for webdevsp21 final",
+  "main": "app.js",
   "scripts": {
-    "start": "node .",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Your Name Here",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
-    "pg": "^8.6.0",
-    "pgtools": "^0.3.1",
-    "sequelize": "^6.6.2"
+    "pg": "^8.5.1",
+    "pgtools": "^0.3.0",
+    "sequelize": "^6.3.5"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.6"
   }
 }
