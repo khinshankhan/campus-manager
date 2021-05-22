@@ -65,7 +65,7 @@ const AddStudentView = props => {
         params.imageURL = image;
       }
       axios.post("/api/students/", params)
-        .then(() => history.push("/students" + res.data.id));
+        .then((res) => history.push("/student/" + res.data.id));
     }
   }
 
