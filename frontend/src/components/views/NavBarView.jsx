@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
   links:{
     textDecoration: 'none',
+    color: "#CDDC39"
   }
 
 }));
@@ -31,8 +32,10 @@ const NavBarView = () => {
     <div>
       <AppBar position="static" elevation={0} className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" className={classes.title} color="inherit" >
-            Campus Manager
+          <Typography variant="h6" className={classes.title} >
+            <Link className={classes.links} to={'/'} >
+              Campus Manager
+            </Link>
           </Typography>
 
           <Link className={classes.links} to={'/campuses'} >
