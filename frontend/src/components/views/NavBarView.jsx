@@ -7,27 +7,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
   title: {
     flexGrow: 1,
     textAlign: 'left',
     fontType: 'bold',
-    fontFamily: 'Courier, sans-serif', 
-    fontSize: '35px', 
+    fontFamily: 'Courier, sans-serif',
+    fontSize: '35px',
     color: '#CDDC39'
   },
   appBar:{
     backgroundColor: '#11153e',
     shadows: ['none'],
-  },
-  greeting:{
-    display: 'flex',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    width: "50%",
-    margin: "auto",
   },
   links:{
     textDecoration: 'none',
@@ -35,14 +25,14 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const HomePageView = () => {
+const NavBarView = () => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div>
       <AppBar position="static" elevation={0} className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" className={classes.title} color="inherit" >
-            CRUD App
+            Campus Manager
           </Typography>
 
           <Link className={classes.links} to={'/campuses'} >
@@ -58,13 +48,8 @@ const HomePageView = () => {
           </Link>
         </Toolbar>
       </AppBar>
-      
-      <div className={classes.greeting}><h1>Home Page</h1></div>
     </div>
-  );    
-}
+  );
+};
 
-
-
-
-export default HomePageView;
+export default NavBarView;
