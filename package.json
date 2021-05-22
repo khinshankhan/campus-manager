@@ -7,7 +7,7 @@
   "scripts": {
     "deps-server": "npm ci --prefix backend",
     "deps-client": "npm ci --prefix frontend",
-    "deps": "npm ci && npm-run-all -p deps-backend deps-frontend",
+    "deps": "npm ci && npm-run-all -p deps-server deps-client",
     "server-dev": "cd backend && npm run dev",
     "server": "npm start --prefix backend",
     "client": "npm start --prefix frontend",
