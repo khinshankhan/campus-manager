@@ -24,8 +24,8 @@ const AddCampusView = (props) => {
   let history = useHistory();
   const classes = useStyles();
 
-  const fields = ["name", "description", "address", "imageUrl"];
-  const required = ["name", "description", "address"];
+  const fields = ["name", "address", "description", "imageUrl"];
+  const required = ["name", "address"];
 
   const [campusInfo, setCampusInfo] = useState({});
   const [availableStudents, setAvailableStudents] = useState(

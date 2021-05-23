@@ -48,7 +48,9 @@ const CampusView = ({ campus }) => {
             <div id="campus-details" style={{ padding: "0 5%" }}>
               <h1>{campus.name}</h1>
               <p>Address: {campus.address}</p>
-              <p>Description: {campus.description}</p>
+              {campus.description &&
+               <p>Description: {campus.description}</p>
+              }
 
               <Link to={`/editcampus/${campus.id}`}>
                 <Button variant="contained" color="primary">
