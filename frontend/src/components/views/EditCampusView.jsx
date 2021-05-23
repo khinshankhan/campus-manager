@@ -149,7 +149,7 @@ const EditCampusView = (props) => {
         <br />
 
         <h2>Add Students</h2>
-        <select name="Students" onChange={handleStudentAdd} onClick={()=>{setNoStudentMessage(true)}} value="">
+        <select name="Students" onChange={handleStudentAdd} onClick={()=>{setNoStudentMessage(!displayNoStudentMessage)}} value="">
           <option value="" disabled hidden>
             Pick Students
           </option>
