@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
@@ -6,10 +7,23 @@ import NavBarView from "./NavBarView";
 
 const StudentView = ({ student, allCampuses }) => {
   let history = useHistory();
+  const [newCampus, setNewCampus] = useState(null);
+
   const handleDelete = (e) => {
     e.preventDefault();
     axios.delete(`/api/students/${student.id}`)
          .then((res) => history.push("/students/"));
+  }
+
+  const handleCampusChange = (e) => {
+    setNewCampus(e.target.value);
+  }
+
+  const handleCampusUpdate = (e) => {
+    e.preventDefault();
+    if (newCampus)
+      axios.put(`/api/students/${student.id}`, {campusId: newCampus})
+        .then(() => e.target.submit());
   }
 
   return (
@@ -34,8 +48,9 @@ const StudentView = ({ student, allCampuses }) => {
                 </>
                : <><h2>This student is not registered to a campus.</h2></>
                }
-               <form>
-                 <select name="Campuses">
+               <form onSubmit={handleCampusUpdate}>
+                 <select name="Campuses" onChange={handleCampusChange} defaultValue="">
+                   <option value="" disabled hidden>Pick Campus</option>
                    {allCampuses.length ?
                     allCampuses.map((campus) => (
                       <option value={campus.id} key={campus.id}>
