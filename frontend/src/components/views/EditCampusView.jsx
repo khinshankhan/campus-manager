@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -39,6 +39,16 @@ const EditCampusView = (props) => {
   const [queuedStudents, setQueuedStudents] = useState(
     props.campus.students || []
   );
+
+  useEffect(() => {
+    const fields = ["name", "description", "address", "imageUrl"];
+    setCampusInfo(
+      fields.reduce(
+        (stored, field) => ({ ...stored, [field]: props.campus[field] }),
+        {}
+      )
+    )
+  }, [props.campus])
 
   const updateCampusInfo = (e) => {
     setCampusInfo({ ...campusInfo, [e.target.name]: e.target.value });
@@ -146,7 +156,9 @@ const EditCampusView = (props) => {
             <Grid container spacing={1}>
               {queuedStudents.map((student, index) => (
                 <Grid key={student.id} item md={3}>
-                  <StudentCard student={student} />
+                  <StudentCard
+                    student={{ ...student, campus: { ...props.campus } }}
+                  />
                   <br />
                   <Button
                     variant="contained"

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -25,6 +25,14 @@ const EditStudentView = ({student}) => {
   const [email, setEmail] = useState(student.email);
   const [gpa, setGPA] = useState(student.gpa);
   const [image, setImage] = useState(student.imageUrl);
+
+  useEffect(() => {
+    setFirstname(student.firstname);
+    setLastname(student.lastname);
+    setEmail(student.email);
+    setGPA(student.gpa);
+    setImage(student.imageUrl);
+  }, [student]);
 
   const updateFirst = (e) => {
     setFirstname(e.target.value);
@@ -135,7 +143,7 @@ const EditStudentView = ({student}) => {
           <br />
           {error && <h2> {error} </h2> }
           <Button type="submit" variant="contained" color="primary">
-            Add Student
+            Apply Changes
           </Button>
         </form>
       </div>
