@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 import NavBarView from "./NavBarView";
+import StudentCard from "./StudentCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: "center",
+    padding: "2vw",
   },
   form: {
     margin: "auto",
@@ -25,17 +28,39 @@ const AddCampusView = (props) => {
   const required = ["name", "description", "address"];
 
   const [campusInfo, setCampusInfo] = useState({});
+  const [availableStudents, setAvailableStudents] = useState(
+    props.allStudents.filter((student) => student.campusId == null)
+  );
+  const [queuedStudents, setQueuedStudents] = useState([]);
 
   const updateCampusInfo = (e) => {
     setCampusInfo({ ...campusInfo, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleStudentAdd = (e) => {
+    e.preventDefault();
+    if (e.target && e.target.value) {
+      const index = +e.target.value;
+      setQueuedStudents([...queuedStudents, availableStudents[index]]);
+      setAvailableStudents((prev) =>
+        prev.filter((_student, currentIndex) => index !== currentIndex)
+      );
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let params = { ...campusInfo };
-    axios
+    const campusId = await axios
       .post("/api/campuses/", params)
-      .then((res) => history.push("/campus/" + res.data.id));
+      .then((res) => res.data.id);
+
+    const addStudents = queuedStudents.map(async (student) =>
+      axios.put(`/api/students/${student.id}`, { campusId })
+    );
+    await Promise.all(addStudents);
+
+    history.push("/campus/" + campusId);
   };
 
   return (
@@ -71,6 +96,57 @@ const AddCampusView = (props) => {
             Add Campus
           </Button>
         </form>
+
+        <br />
+
+        <h2>Add Students</h2>
+        <select name="Students" onChange={handleStudentAdd} value="">
+          <option value="" disabled hidden>
+            Pick Students
+          </option>
+
+          {availableStudents.length &&
+            availableStudents.map((student, index) => (
+              <option value={index} key={index}>
+                {student.firstname} {student.lastname}
+              </option>
+            ))}
+        </select>
+
+        <br />
+        <br />
+
+        {queuedStudents.length ? (
+          <div>
+            <Grid container spacing={1}>
+              {queuedStudents.map((student, index) => (
+                <Grid key={student.id} item md={3}>
+                  <StudentCard student={student} />
+                  <br />
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                      setAvailableStudents((prev) => [
+                        ...availableStudents,
+                        queuedStudents[index],
+                      ]);
+                      setQueuedStudents((prev) =>
+                        prev.filter(
+                          (_student, currentIndex) => index !== currentIndex
+                        )
+                      );
+                    }}
+                  >
+                    Don't Add
+                  </Button>
+                </Grid>
+              ))}
+            </Grid>
+          </div>
+        ) : (
+          <div>There are no students picked for the campus.</div>
+        )}
       </div>
     </>
   );
