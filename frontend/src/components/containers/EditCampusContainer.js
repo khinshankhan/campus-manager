@@ -4,7 +4,7 @@ import { fetchCampusThunk, fetchAllStudentsThunk } from "../../store/thunks";
 
 import { EditCampusView } from "../views";
 
-class AddCampusContainer extends Component {
+class EditCampusContainer extends Component {
   componentDidMount() {
     //getting campus ID from url
     this.props.fetchCampus(this.props.match.params.id);
@@ -37,4 +37,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapState, mapDispatch)(AddCampusContainer);
+export default connect(mapState, mapDispatch)(EditCampusContainer);
