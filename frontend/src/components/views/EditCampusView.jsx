@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import NavBarView from "./NavBarView";
 import StudentCard from "./StudentCard";
@@ -125,9 +125,8 @@ const EditCampusView = (props) => {
                 value={campusInfo[field]}
                 label={`${field
                   .replace(/([a-z])([A-Z])/g, "$1 $2")
-                  .toLowerCase()} ${
-                  !required.includes(field) ? "(optional)" : ""
-                }`}
+                  .toLowerCase()} ${!required.includes(field) ? "(optional)" : ""
+                  }`}
                 placeholder={field
                   .replace(/([a-z])([A-Z])/g, "$1 $2")
                   .toLowerCase()}
@@ -148,24 +147,35 @@ const EditCampusView = (props) => {
         <br />
 
         <h2>Add Students</h2>
-        <select name="Students" onChange={handleStudentAdd} value="">
-          <option value="" disabled hidden>
-            Pick Students
+        {availableStudents.length !== 0 ?
+          (<select name="Students" onChange={handleStudentAdd} value="">
+            <option value="" disabled hidden>
+              Pick Students
           </option>
-
-          {availableStudents.length &&
-            availableStudents.map((student, index) => (
-              <option value={index} key={index}>
-                {student.firstname} {student.lastname}
-              </option>
-            ))}
-        </select>
+            {availableStudents.length &&
+              availableStudents.map((student, index) => (
+                <option value={index} key={index}>
+                  {student.firstname} {student.lastname}
+                </option>
+              ))}
+          </select>)
+          :
+          (<h2>
+            Error, cannot pick students because there are no available students.
+            <br /><br />
+            <Link to={'/addstudent'} >
+              <Button style={{ float: 'center' }} variant="contained" color="primary">
+                Add Student
+                </Button>
+            </Link>
+          </h2>)
+        }
 
         <br />
         <br />
 
         {changed &&
-         <h2> Make sure to apply changes </h2>
+          <h2> Make sure to apply changes </h2>
         }
 
         {queuedStudents.length ? (
@@ -200,8 +210,8 @@ const EditCampusView = (props) => {
             </Grid>
           </div>
         ) : (
-          <div>There are no students picked for the campus.</div>
-        )}
+            <div>There are no students picked for the campus.</div>
+          )}
       </div>
     </>
   );

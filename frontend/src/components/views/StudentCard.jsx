@@ -65,7 +65,7 @@ const StudentCard = (props) => {
              color="secondary"
              onClick={handleDelete}
            >
-             Delete Student
+             Delete
            </Button>
           }
           <br />
