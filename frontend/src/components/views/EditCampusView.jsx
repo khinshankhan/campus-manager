@@ -47,8 +47,14 @@ const EditCampusView = (props) => {
         (stored, field) => ({ ...stored, [field]: props.campus[field] }),
         {}
       )
-    )
-  }, [props.campus])
+    );
+    setAvailableStudents(
+      props.allStudents.filter((student) => student.campusId == null)
+    );
+    setQueuedStudents(
+      props.campus.students || []
+    );
+  }, [props.campus, props.allStudents])
 
   const updateCampusInfo = (e) => {
     setCampusInfo({ ...campusInfo, [e.target.name]: e.target.value });
@@ -107,6 +113,7 @@ const EditCampusView = (props) => {
           {fields.map((field, index) => (
             <React.Fragment key={index}>
               <TextField
+                InputLabelProps={{ shrink: true }}
                 type="text"
                 name={field}
                 value={campusInfo[field]}
