@@ -25,6 +25,7 @@ const AddCampusView = (props) => {
   const classes = useStyles();
 
   const fields = ["name", "address", "description", "imageUrl"];
+  const fieldTypes = ["text", "text", "text", "url"];
   const required = ["name", "address"];
 
   const [campusInfo, setCampusInfo] = useState({});
@@ -51,6 +52,9 @@ const AddCampusView = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let params = { ...campusInfo };
+    if (params.imageUrl === "") {
+      delete params.imageUrl;
+    }
     const campusId = await axios
       .post("/api/campuses/", params)
       .then((res) => res.data.id);
@@ -73,7 +77,7 @@ const AddCampusView = (props) => {
           {fields.map((field, index) => (
             <React.Fragment key={index}>
               <TextField
-                type="text"
+                type={fieldTypes[index]}
                 name={field}
                 label={`${field
                   .replace(/([a-z])([A-Z])/g, "$1 $2")

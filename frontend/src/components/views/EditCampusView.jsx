@@ -25,8 +25,10 @@ const EditCampusView = (props) => {
   const classes = useStyles();
 
   const fields = ["name", "address", "description", "imageUrl"];
+  const fieldTypes = ["text", "text", "text", "url"];
   const required = ["name", "address"];
 
+  const [changed, setChanged] = useState(false);
   const [campusInfo, setCampusInfo] = useState(
     fields.reduce(
       (stored, field) => ({ ...stored, [field]: props.campus[field] }),
@@ -69,12 +71,16 @@ const EditCampusView = (props) => {
         prev.filter((_student, currentIndex) => index !== currentIndex)
       );
     }
+    setChanged(true);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const campusId = props.campus.id;
     let params = { ...campusInfo };
+    if (params.imageUrl === "") {
+      delete params.imageUrl;
+    }
     await axios
       .put(`/api/campuses/${campusId}`, params)
       .then((res) => res.data.id);
@@ -114,7 +120,7 @@ const EditCampusView = (props) => {
             <React.Fragment key={index}>
               <TextField
                 InputLabelProps={{ shrink: true }}
-                type="text"
+                type={fieldTypes[index]}
                 name={field}
                 value={campusInfo[field]}
                 label={`${field
@@ -158,6 +164,10 @@ const EditCampusView = (props) => {
         <br />
         <br />
 
+        {changed &&
+         <h2> Make sure to apply changes </h2>
+        }
+
         {queuedStudents.length ? (
           <div>
             <Grid container spacing={1}>
@@ -180,6 +190,7 @@ const EditCampusView = (props) => {
                           (_student, currentIndex) => index !== currentIndex
                         )
                       );
+                      setChanged(true);
                     }}
                   >
                     Remove
