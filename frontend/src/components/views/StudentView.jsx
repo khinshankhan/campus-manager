@@ -1,8 +1,17 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useHistory } from 'react-router-dom';
 
 import NavBarView from "./NavBarView";
 
 const StudentView = ({ student, allCampuses }) => {
+  let history = useHistory();
+  const handleDelete = (e) => {
+    e.preventDefault();
+    axios.delete(`/api/students/${student.id}`)
+         .then((res) => history.push("/students/"));
+  }
+
   return (
     <>
       <NavBarView />
@@ -16,7 +25,7 @@ const StudentView = ({ student, allCampuses }) => {
              <p>{student.gpa}</p>
              <div id="student-options">
                <button><Link to={`/editstudent/${student.id}`}>Edit</Link></button>
-               <button>X</button>
+               <button onClick={handleDelete}>X</button>
                {student.campus ?
                 <>
                   <h2>This student is registered to <Link to={`/campus/${student.campus.id}`}>
