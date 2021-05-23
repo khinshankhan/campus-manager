@@ -6,7 +6,6 @@ import { AllStudentsView } from "../views";
 
 class AllStudentsContainer extends Component {
   componentDidMount() {
-    console.log(this.props);
     this.props.fetchAllStudents();
   }
 

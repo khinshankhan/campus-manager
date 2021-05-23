@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -25,6 +25,14 @@ const EditStudentView = ({student}) => {
   const [email, setEmail] = useState(student.email);
   const [gpa, setGPA] = useState(student.gpa);
   const [image, setImage] = useState(student.imageUrl);
+
+  useEffect(() => {
+    setFirstname(student.firstname);
+    setLastname(student.lastname);
+    setEmail(student.email);
+    setGPA(student.gpa);
+    setImage(student.imageUrl);
+  }, [student]);
 
   const updateFirst = (e) => {
     setFirstname(e.target.value);
@@ -76,6 +84,7 @@ const EditStudentView = ({student}) => {
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             type="text"
+            InputLabelProps={{ shrink: true }}
             label="first name"
             placeholder="first name"
             variant="outlined"
@@ -88,6 +97,7 @@ const EditStudentView = ({student}) => {
           <br />
           <TextField
             type="text"
+            InputLabelProps={{ shrink: true }}
             label="last name"
             placeholder="last name"
             value={lastname}
@@ -100,6 +110,7 @@ const EditStudentView = ({student}) => {
           <br />
           <TextField
             type="email"
+            InputLabelProps={{ shrink: true }}
             label="email"
             placeholder="email"
             value={email}
@@ -112,6 +123,7 @@ const EditStudentView = ({student}) => {
           <br />
           <TextField
             type="text"
+            InputLabelProps={{ shrink: true }}
             label="GPA"
             placeholder="GPA"
             variant="outlined"
@@ -124,6 +136,7 @@ const EditStudentView = ({student}) => {
           <br />
           <TextField
             type="url"
+            InputLabelProps={{ shrink: true }}
             label="url (optional)"
             placeholder="url (optional)"
             value={image}
@@ -135,7 +148,7 @@ const EditStudentView = ({student}) => {
           <br />
           {error && <h2> {error} </h2> }
           <Button type="submit" variant="contained" color="primary">
-            Add Student
+            Apply Changes
           </Button>
         </form>
       </div>

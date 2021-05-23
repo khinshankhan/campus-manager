@@ -37,7 +37,7 @@ const AllCampusesView = ({ allCampuses }) => {
               <Grid container spacing={3}>
                 {allCampuses.map((campus) => (
                   <Grid key={campus.id} item md={3}>
-                    <CampusCard campus={campus} />
+                    <CampusCard campus={campus} includeDelete="true" />
                   </Grid>
                 ))}
               </Grid>

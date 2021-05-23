@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -24,8 +24,8 @@ const EditCampusView = (props) => {
   let history = useHistory();
   const classes = useStyles();
 
-  const fields = ["name", "description", "address", "imageUrl"];
-  const required = ["name", "description", "address"];
+  const fields = ["name", "address", "description", "imageUrl"];
+  const required = ["name", "address"];
 
   const [campusInfo, setCampusInfo] = useState(
     fields.reduce(
@@ -39,6 +39,22 @@ const EditCampusView = (props) => {
   const [queuedStudents, setQueuedStudents] = useState(
     props.campus.students || []
   );
+
+  useEffect(() => {
+    const fields = ["name", "description", "address", "imageUrl"];
+    setCampusInfo(
+      fields.reduce(
+        (stored, field) => ({ ...stored, [field]: props.campus[field] }),
+        {}
+      )
+    );
+    setAvailableStudents(
+      props.allStudents.filter((student) => student.campusId == null)
+    );
+    setQueuedStudents(
+      props.campus.students || []
+    );
+  }, [props.campus, props.allStudents])
 
   const updateCampusInfo = (e) => {
     setCampusInfo({ ...campusInfo, [e.target.name]: e.target.value });
@@ -97,6 +113,7 @@ const EditCampusView = (props) => {
           {fields.map((field, index) => (
             <React.Fragment key={index}>
               <TextField
+                InputLabelProps={{ shrink: true }}
                 type="text"
                 name={field}
                 value={campusInfo[field]}
@@ -146,7 +163,9 @@ const EditCampusView = (props) => {
             <Grid container spacing={1}>
               {queuedStudents.map((student, index) => (
                 <Grid key={student.id} item md={3}>
-                  <StudentCard student={student} />
+                  <StudentCard
+                    student={{ ...student, campus: { ...props.campus } }}
+                  />
                   <br />
                   <Button
                     variant="contained"

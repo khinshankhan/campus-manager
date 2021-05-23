@@ -47,6 +47,10 @@ const CampusView = ({ campus }) => {
 
             <div id="campus-details" style={{ padding: "0 5%" }}>
               <h1>{campus.name}</h1>
+              <p>Address: {campus.address}</p>
+              {campus.description &&
+               <p>Description: {campus.description}</p>
+              }
 
               <Link to={`/editcampus/${campus.id}`}>
                 <Button variant="contained" color="primary">
@@ -62,13 +66,19 @@ const CampusView = ({ campus }) => {
                 Remove Campus
               </Button>
 
-              <p>{campus.description}</p>
             </div>
           </div>
         ) : (
           <div> Loading... </div>
         )}
 
+        <h1>Students on Campus
+          <Link to={`/editcampus/${campus.id}`} >
+            <Button style={{float: 'right'}} variant="contained" color="primary">
+              Add/Edit Students
+            </Button>
+          </Link>
+        </h1>
         {campus && campus.students.length ? (
           <div>
             <Grid container spacing={1}>
@@ -77,6 +87,7 @@ const CampusView = ({ campus }) => {
                   {console.log({ student })}
                   <StudentCard
                     student={{ ...student, campus: { ...campus } }}
+                    includeCampusLeave="true"
                   />
                 </Grid>
               ))}
