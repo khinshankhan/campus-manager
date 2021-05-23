@@ -73,8 +73,11 @@ const CampusView = ({ campus }) => {
           <div>
             <Grid container spacing={1}>
               {campus.students.map((student, index) => (
-                <Grid key={student.id} item md={3}>
-                  <StudentCard student={student} />
+                <Grid key={index} item md={3}>
+                  {console.log({ student })}
+                  <StudentCard
+                    student={{ ...student, campus: { ...campus } }}
+                  />
                 </Grid>
               ))}
             </Grid>
