@@ -15,29 +15,27 @@ const StudentView = ({ student, allCampuses }) => {
              <p>{student.email}</p>
              <p>{student.gpa}</p>
              <div id="student-options">
-               <button>Edit</button>
+               <button><Link to={`/editstudent/${student.id}`}>Edit</Link></button>
                <button>X</button>
                {student.campus ?
                 <>
-                  <h2>This student is registered to
-                    <Link to={`/campus/${student.campus.id}`}>
-                      {student.campus}
-                    </Link>
+                  <h2>This student is registered to <Link to={`/campus/${student.campus.id}`}>
+                    {student.campus.name}</Link>
                   </h2>
                 </>
                : <><h2>This student is not registered to a campus.</h2></>
                }
                <form>
-               <select name="Campuses">
-                 {allCampuses.length ?
-                  allCampuses.map((campus) => (
-                    <option value={campus.id} key={campus.id}>
-                      {campus.name}
-                    </option>
-                  ))
-                 : <></>}
-               </select>
-               <input type="submit" value="Change Campus"></input>
+                 <select name="Campuses">
+                   {allCampuses.length ?
+                    allCampuses.map((campus) => (
+                      <option value={campus.id} key={campus.id}>
+                        {campus.name}
+                      </option>
+                    ))
+                   : <></>}
+                 </select>
+                 <input type="submit" value="Change Campus"></input>
                </form>
              </div>
            </div>
