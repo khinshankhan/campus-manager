@@ -29,7 +29,6 @@ const AddCampusView = (props) => {
   const required = ["name", "address"];
 
   const [campusInfo, setCampusInfo] = useState({});
-  const [displayNoStudentMessage, setNoStudentMessage] = useState(false);
   const [availableStudents, setAvailableStudents] = useState(
     props.allStudents.filter((student) => student.campusId == null)
   );
@@ -105,29 +104,28 @@ const AddCampusView = (props) => {
         <br />
 
         <h2>Add Students</h2>
-        <select name="Students" onChange={handleStudentAdd} onClick={()=>{setNoStudentMessage(true)}} value="">
-          <option value="" disabled hidden>
-            Pick Students
+        {availableStudents.length !== 0 ?
+          (<select name="Students" onChange={handleStudentAdd} value="">
+            <option value="" disabled hidden>
+              Pick Students
           </option>
-
-          {availableStudents.length &&
-            availableStudents.map((student, index) => (
-              <option value={index} key={index}>
-                {student.firstname} {student.lastname}
-              </option>
-            ))}
-        </select>
-
-        {availableStudents.length === 0 && displayNoStudentMessage && 
-          <h2>
-              Error, cannot pick students because there are no available students.
-              <br /><br />
-              <Link to={'/addstudent'} >
-                <Button style={{float: 'center'}} variant="contained" color="primary">
-                  Add Student
+            {availableStudents.length &&
+              availableStudents.map((student, index) => (
+                <option value={index} key={index}>
+                  {student.firstname} {student.lastname}
+                </option>
+              ))}
+          </select>)
+          :
+          (<h2>
+            Error, cannot pick students because there are no available students.
+            <br /><br />
+            <Link to={'/addstudent'} >
+              <Button style={{ float: 'center' }} variant="contained" color="primary">
+                Add Student
                 </Button>
-              </Link>
-          </h2>
+            </Link>
+          </h2>)
         }
 
         <br />
