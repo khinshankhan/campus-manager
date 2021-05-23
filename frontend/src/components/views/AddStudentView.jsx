@@ -62,7 +62,7 @@ const AddStudentView = props => {
         gpa: gpa
       };
       if(image) {
-        params.imageURL = image;
+        params.imageUrl = image;
       }
       axios.post("/api/students/", params)
         .then((res) => history.push("/student/" + res.data.id));

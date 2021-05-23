@@ -62,7 +62,7 @@ const EditStudentView = ({student}) => {
         gpa: gpa
       };
       if(image) {
-        params.imageURL = image;
+        params.imageUrl = image;
       }
       axios.put(`/api/students/${student.id}`,params)
         .then((res) => history.push("/student/" + res.data.id));
