@@ -14,7 +14,7 @@ const Campus = db.define("campus", {
 
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: "http://www.brooklyn.cuny.edu/web/abo_misc/200304_Campus_Aerial_738x330.jpg",
+    defaultValue: "https://gogocharters.com/blog/wp-content/uploads/2017/11/columbia-university-campus.jpg",
     validate: {
       isUrl: true
     }

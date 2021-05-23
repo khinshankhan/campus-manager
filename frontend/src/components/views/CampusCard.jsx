@@ -60,7 +60,7 @@ const CampusCard = (props) => {
              color="secondary"
              onClick={handleDelete}
            >
-             Delete Campus
+             Delete
            </Button>
           }
           <br />
