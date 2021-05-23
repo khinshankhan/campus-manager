@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import NavBarView from "./NavBarView";
 import StudentCard from "./StudentCard";
@@ -29,6 +29,7 @@ const AddCampusView = (props) => {
   const required = ["name", "address"];
 
   const [campusInfo, setCampusInfo] = useState({});
+  const [displayNoStudentMessage, setNoStudentMessage] = useState(false);
   const [availableStudents, setAvailableStudents] = useState(
     props.allStudents.filter((student) => student.campusId == null)
   );
@@ -104,7 +105,7 @@ const AddCampusView = (props) => {
         <br />
 
         <h2>Add Students</h2>
-        <select name="Students" onChange={handleStudentAdd} value="">
+        <select name="Students" onChange={handleStudentAdd} onClick={()=>{setNoStudentMessage(true)}} value="">
           <option value="" disabled hidden>
             Pick Students
           </option>
@@ -116,6 +117,18 @@ const AddCampusView = (props) => {
               </option>
             ))}
         </select>
+
+        {availableStudents.length === 0 && displayNoStudentMessage && 
+          <h2>
+              Error, cannot pick students because there are no available students.
+              <br /><br />
+              <Link to={'/addstudent'} >
+                <Button style={{float: 'center'}} variant="contained" color="primary">
+                  Add Student
+                </Button>
+              </Link>
+          </h2>
+        }
 
         <br />
         <br />
