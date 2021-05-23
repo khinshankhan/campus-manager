@@ -133,7 +133,7 @@ const EditStudentView = ({student}) => {
           />
           <br />
           <br />
-          {error && <h2 className={classes.error}> {error} </h2> }
+          {error && <h2> {error} </h2> }
           <Button type="submit" variant="contained" color="primary">
             Add Student
           </Button>
