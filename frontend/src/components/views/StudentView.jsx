@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 import NavBarView from "./NavBarView";
 
@@ -51,13 +52,23 @@ const StudentView = ({ student, allCampuses }) => {
               <h1>
                 {student.firstname} {student.lastname}
               </h1>
+              <Link to={`/editstudent/${student.id}`}>
+                <Button variant="contained" color="primary">
+                  Edit Student
+                </Button>
+              </Link>
+
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleDelete}
+              >
+                Remove Student
+              </Button>
+
               <p>{student.email}</p>
               <p>{student.gpa}</p>
               <div id="student-options">
-                <button>
-                  <Link to={`/editstudent/${student.id}`}>Edit</Link>
-                </button>
-                <button onClick={handleDelete}>X</button>
                 {student.campus ? (
                   <>
                     <h2>
