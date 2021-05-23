@@ -18,7 +18,7 @@ const HomePageView = () => {
     <>
       <NavBarView />
       <br />
-      <div className={classes.greeting}><h1>Home Page</h1></div>
+      <div className={classes.greeting}><h1>Navigate to All Campuses or Students using NavBar</h1></div>
     </>
   );
 };
