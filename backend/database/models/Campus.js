@@ -14,8 +14,10 @@ const Campus = db.define("campus", {
 
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: "http://www.brooklyn.cuny.edu/web/abo_misc/200304_Campus_Aerial_738x330.jpg"
-
+    defaultValue: "http://www.brooklyn.cuny.edu/web/abo_misc/200304_Campus_Aerial_738x330.jpg",
+    validate: {
+      isUrl: true
+    }
   },
 
   address: {

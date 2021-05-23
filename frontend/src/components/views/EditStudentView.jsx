@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-//import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 const EditStudentView = ({student}) => {
   let history = useHistory();
+  const [error, setError] = useState(null);
   const [firstname, setFirstname] = useState(student.firstname);
   const [lastname, setLastname] = useState(student.lastname);
   const [email, setEmail] = useState(student.email);
@@ -38,14 +39,7 @@ const EditStudentView = ({student}) => {
   }
 
   const updateGPA = (e) => {
-    const val = e.target.value;
-    if (val !== "" && !isNaN(val)) {
-      const num = +val;
-      if (num >= 0 && num <= 4) {
-        setGPA(num);
-        console.log(num);
-      }
-    }
+    setGPA(e.target.value);
   }
 
   const updateImage = (e) => {
@@ -54,7 +48,10 @@ const EditStudentView = ({student}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(gpa) {
+    if (isNaN(gpa) || gpa < 0 || gpa > 4) {
+      setError("GPA must be between 0 and 4");
+    } else {
+      setError(null);
       let params = {
         firstname: firstname,
         lastname: lastname,
@@ -87,6 +84,8 @@ const EditStudentView = ({student}) => {
             fullWidth
             onChange={updateFirst}
           />
+          <br />
+          <br />
           <TextField
             type="text"
             label="last name"
@@ -97,6 +96,8 @@ const EditStudentView = ({student}) => {
             fullWidth
             onChange={updateLast}
           />
+          <br />
+          <br />
           <TextField
             type="email"
             label="email"
@@ -107,6 +108,8 @@ const EditStudentView = ({student}) => {
             fullWidth
             onChange={updateEmail}
           />
+          <br />
+          <br />
           <TextField
             type="text"
             label="GPA"
@@ -117,6 +120,8 @@ const EditStudentView = ({student}) => {
             fullWidth
             onChange={updateGPA}
           />
+          <br />
+          <br />
           <TextField
             type="url"
             label="url (optional)"
@@ -126,7 +131,12 @@ const EditStudentView = ({student}) => {
             fullWidth
             onChange={updateImage}
           />
-          <input type="submit" value="Edit Student" />
+          <br />
+          <br />
+          {error && <h2> {error} </h2> }
+          <Button type="submit" variant="contained" color="primary">
+            Add Student
+          </Button>
         </form>
       </div>
     </>

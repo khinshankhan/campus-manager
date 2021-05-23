@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-//import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 const AddStudentView = props => {
   let history = useHistory();
+  const [error, setError] = useState(null);
   const [firstname, setFirstname] = useState(null);
   const [lastname, setLastname] = useState(null);
   const [email, setEmail] = useState(null);
@@ -38,14 +39,7 @@ const AddStudentView = props => {
   }
 
   const updateGPA = (e) => {
-    const val = e.target.value;
-    if (val !== "" && !isNaN(val)) {
-      const num = +val;
-      if (num >= 0 && num <= 4) {
-        setGPA(num);
-        console.log(num);
-      }
-    }
+    setGPA(e.target.value);
   }
 
   const updateImage = (e) => {
@@ -54,7 +48,10 @@ const AddStudentView = props => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(gpa) {
+    if (isNaN(gpa) || gpa < 0 || gpa > 4) {
+      setError("GPA must be between 0 and 4");
+    } else {
+      setError(null);
       let params = {
         firstname: firstname,
         lastname: lastname,
@@ -86,6 +83,8 @@ const AddStudentView = props => {
             fullWidth
             onChange={updateFirst}
           />
+          <br />
+          <br />
           <TextField
             type="text"
             label="last name"
@@ -95,6 +94,8 @@ const AddStudentView = props => {
             fullWidth
             onChange={updateLast}
           />
+          <br />
+          <br />
           <TextField
             type="email"
             label="email"
@@ -104,6 +105,8 @@ const AddStudentView = props => {
             fullWidth
             onChange={updateEmail}
           />
+          <br />
+          <br />
           <TextField
             type="text"
             label="GPA"
@@ -113,6 +116,8 @@ const AddStudentView = props => {
             fullWidth
             onChange={updateGPA}
           />
+          <br />
+          <br />
           <TextField
             type="url"
             label="url (optional)"
@@ -121,7 +126,12 @@ const AddStudentView = props => {
             fullWidth
             onChange={updateImage}
           />
-          <input type="submit" value="Add Student" />
+          <br />
+          <br />
+          {error && <h2> {error} </h2> }
+          <Button type="submit" variant="contained" color="primary">
+            Add Student
+          </Button>
         </form>
       </div>
     </>
