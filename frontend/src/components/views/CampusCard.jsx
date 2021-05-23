@@ -22,9 +22,7 @@ const CampusCard = ({ campus }) => {
           <Link to={`/campus/${campus.id}`}>
             <h1>{campus.name}</h1>
           </Link>
-        {/* <div className="stud">
-            {this.props.numOfStudents} Students
-        </div> */}
+        Number of Students: {campus.students.length}
         </CardContent>
       </Card>
     </>
